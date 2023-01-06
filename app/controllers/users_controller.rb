@@ -12,6 +12,8 @@ class UsersController < ApplicationController
 
     render "rooms/index"
   end
+  def join
+  end
 
   private
   def get_name(user1, user2)

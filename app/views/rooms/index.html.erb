@@ -1,7 +1,6 @@
 <div class="row">
   <div class="col-md-2">
     <h5> Hi <%= @current_user.username %> </h5>
-  	
 	<%= link_to 'Sign Out', signout_path,  :method => :delete %>
     <h4> Users </h4>
     <div>
@@ -15,19 +14,28 @@
     <div>
       <%= turbo_stream_from "rooms" %>
       <div id="rooms">
-        <%= render @rooms %>
+        <%= render @rooms %> 
       </div>
     </div>
   </div>
    <div class="col-md-10 bg-dark text-light">
   <% if @single_room %>
 <h4 class="text-center"> <%= @user&.username || @single_room.name %> </h4>
-
  <%= turbo_stream_from @single_room %>
+    <% if current_user.join.present? %>
+ <% if (current_user.join.roomjoin.include?(@single_room.id)) %>
 <div id="messages">
 	  <%= render @messages %>
+    <br>
 </div>
 <%= render partial: 'layouts/new_message_form' %>
+<% else %>
+<h2>Please join the channel to start messaging... </h2>
+<% end %>
+<% else %>
+<h2>Please join the channel to start messaging... </h2>
+<% end %>
+
 <% end %>
   </div>
 </div>

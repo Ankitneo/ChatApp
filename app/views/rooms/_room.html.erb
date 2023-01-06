@@ -1,1 +1,19 @@
-<div> <%= link_to room.name, room %> </div>
+<div> <%= link_to room.name, room %>&nbsp;|&nbsp;
+<% if current_user.join.present? %>
+  <% if !(current_user.join.roomjoin.include?(room.id)) %>
+    <%= form_with(url: "/room_joins/add", method: "post") do |f| %>
+      <%= f.hidden_field :room, value: room.id %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <%= f.submit "join", class: 'btn btn-primary' %>
+    <% end %>
+  <% else %>
+  <%= "joined" %>
+  <% end %>
+<% else %>
+  <%= form_with(url: "/room_joins/add", method: "post") do |f| %>
+    <%= f.hidden_field :room, value: room.id %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.submit "join", class: 'btn btn-primary' %>
+  <% end %>
+<% end %>
+</div>
